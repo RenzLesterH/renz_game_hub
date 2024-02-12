@@ -3,10 +3,11 @@ import useGenres, { Genre } from '../hooks/useGenre.hook'
 import getCroppedImageUrl from '../services/imageUrl';
 
 interface Props{
-    setSelectedGenre: (genre: Genre) => void
+    setSelectedGenre: (genre: Genre) => void;
+    selected_genre: Genre | null;
 }
 
-const GenreList = ({setSelectedGenre}: Props) => {
+const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
     const {data, is_loading, error} = useGenres();
     const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     
@@ -23,18 +24,20 @@ const GenreList = ({setSelectedGenre}: Props) => {
                         </HStack>
                     </ListItem>
                   ))
-                : data.map((genre) => (
-                    <ListItem key={genre.id} paddingY="5px">
+                : data.map((genre) => {
+                    const font_weight = (genre.id === selected_genre?.id) ? "bold" : "normal";
+
+                    return ( <ListItem key={genre.id} paddingY="5px">
                         <HStack>
                             <Image 
                                 boxSize="32px"
                                 borderRadius={8}
                                 src={getCroppedImageUrl(genre.image_background)}
                             />
-                            <Button onClick={()=>setSelectedGenre(genre)} variant="link" fontSize="lg">{genre.name}</Button>
+                            <Button fontWeight={font_weight} onClick={()=>setSelectedGenre(genre)} variant="link" fontSize="lg">{genre.name}</Button>
                         </HStack>
-                    </ListItem>
-                ))
+                    </ListItem> );
+                })
             }
 
         </List>
