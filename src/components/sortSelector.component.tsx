@@ -1,20 +1,35 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
-import { BsChevronDown } from "react-icons/bs"
+import { useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
 
-const SortSelector = () => {
-    // const {data, error } = usePlatforms();
+interface Props {
+    setOrder: (order: string) => void;
+}
 
-    // if (error) return null;
+const SortSelector = ({setOrder}: Props) => {
+    const[selected_order, setSelectedOrder] = useState("Relevence");
+    const order_list = [
+        {label: "Relevance", value: ""},
+        {label: "Name", value: "name"},
+        {label: "Released Date", value: "-released"},
+        {label: "Added Date", value: "-added"},
+        {label: "Created Date", value: "-created"},
+        {label: "Updated Date", value: "-updated"},
+        {label: "Average Rating", value: "-rating"},
+        {label: "Popularity", value: "-metacritic"},
+    ];
 
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown/>}>
-                Order by: Relevence
+                {`Order by: ${selected_order} `}
             </MenuButton>
             <MenuList>
-                {/* {data.map((data_item) => (
-                    <MenuItem onClick={() => setSelectedPlatform(data_item)} key={data_item.id}>{data_item.name}</MenuItem>
-                ))} */}
+                {order_list.map((order_item) => (
+                    <MenuItem 
+                        onClick={() => {setOrder(order_item.value); setSelectedOrder(order_item.label)}} 
+                        key={order_item.value} value={order_item.value}>{order_item.label}</MenuItem>
+                ))}
             </MenuList>
         </Menu>
     )
