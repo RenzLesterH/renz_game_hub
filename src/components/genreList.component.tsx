@@ -1,6 +1,7 @@
 import { HStack, Image, List, ListItem, Skeleton, Button, Heading } from '@chakra-ui/react';
-import useGenres, { Genre } from '../hooks/useGenre.hook'
+import useGenres from '../hooks/useGenre.hook'
 import getCroppedImageUrl from '../services/imageUrl';
+import { Genre } from '../services/genre.service';
 
 interface Props{
     setSelectedGenre: (genre: Genre) => void;
@@ -8,7 +9,7 @@ interface Props{
 }
 
 const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
-    const {data, is_loading, error} = useGenres();
+    const {data, isLoading, error} = useGenres();
     const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     
     if (error) return null;
@@ -17,7 +18,7 @@ const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
         <>
             <Heading fontSize="2xl" marginBottom={3}>Genres</Heading>
             <List>
-                {(is_loading)
+                {(isLoading)
                     ? skeletons.map((genre) => (
                         <ListItem key={genre} paddingY="5px">
                             <HStack>
@@ -26,7 +27,7 @@ const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
                             </HStack>
                         </ListItem>
                     ))
-                    : data.map((genre) => {
+                    : data?.map((genre) => {
                         const font_weight = (genre.id === selected_genre?.id) ? "bold" : "normal";
 
                         return ( <ListItem key={genre.id} paddingY="5px">

@@ -7,9 +7,9 @@ import { FaWindows,
          FaAndroid, } from "react-icons/fa"
 import { MdPhoneIphone } from "react-icons/md"
 import { SiNintendo } from "react-icons/si"
-import { BsGlobe } from "react-icons/bs"
-import { Platform } from "../hooks/useGame.hook";         
+import { BsGlobe } from "react-icons/bs"         
 import { IconType } from "react-icons"
+import { Platform } from "../services/platform.service"
 
 interface Props {
     platforms: Platform[];
