@@ -13,7 +13,8 @@ export interface GameQuery{
   genre: Genre | null;
   platform: Platform | null;
   order: string;
-  search: string; 
+  search: string;
+  page_size: number; 
 }
 
 function App() {
