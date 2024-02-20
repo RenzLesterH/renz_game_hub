@@ -5,11 +5,12 @@ import { Platform } from './../services/platform.service';
 
 interface Props {
     setSelectedPlatform: (platform: Platform) => void;
-    selected_platform: Platform | null;
+    selected_platform_id?: number;
 }
 
-const PlatformSelector = ({setSelectedPlatform, selected_platform}: Props) => {
+const PlatformSelector = ({setSelectedPlatform, selected_platform_id}: Props) => {
     const {data, error } = usePlatforms();
+    const selected_platform = data?.find((platform_item) => platform_item.id === selected_platform_id);
 
     if (error) return null;
 

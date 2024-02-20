@@ -5,10 +5,10 @@ import { Genre } from '../services/genre.service';
 
 interface Props{
     setSelectedGenre: (genre: Genre) => void;
-    selected_genre: Genre | null;
+    selected_genre_id?: number;
 }
 
-const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
+const GenreList = ({setSelectedGenre, selected_genre_id}: Props) => {
     const {data, isLoading, error} = useGenres();
     const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     
@@ -28,7 +28,7 @@ const GenreList = ({setSelectedGenre, selected_genre}: Props) => {
                         </ListItem>
                     ))
                     : data?.map((genre) => {
-                        const font_weight = (genre.id === selected_genre?.id) ? "bold" : "normal";
+                        const font_weight = (genre.id === selected_genre_id) ? "bold" : "normal";
 
                         return ( <ListItem key={genre.id} paddingY="5px">
                             <HStack>

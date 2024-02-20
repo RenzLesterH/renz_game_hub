@@ -6,12 +6,10 @@ import { useState } from 'react';
 import PlatformSelector from './components/platformSelector.component';
 import SortSelector from './components/sortSelector.component';
 import GameHeading from './components/gameHeading.componenet';
-import { Platform } from './services/platform.service';
-import { Genre } from './services/genre.service';
 
 export interface GameQuery{
-  genre: Genre | null;
-  platform: Platform | null;
+  genre_id?: number ;
+  platform_id?: number;
   order: string;
   search: string;
   page_size: number; 
@@ -36,7 +34,7 @@ function App() {
             </GridItem>
             <Show above="lg">
                 <GridItem area="aside" paddingX={5}>
-                  <GenreList selected_genre={game_query.genre} setSelectedGenre = {(genre)=> setGameQuery({...game_query, genre})} />
+                  <GenreList selected_genre_id={game_query.genre_id} setSelectedGenre = {(genre)=> setGameQuery({...game_query, genre_id: genre.id})} />
                 </GridItem>
             </Show>
             <GridItem area="main">
@@ -44,7 +42,7 @@ function App() {
                   <GameHeading game_query={game_query}/>
                   <Flex marginBottom={5}>
                       <Box marginRight={5}>
-                        <PlatformSelector selected_platform={game_query.platform} setSelectedPlatform={(platform)=> setGameQuery({...game_query, platform})}/>
+                        <PlatformSelector selected_platform_id={game_query.platform_id} setSelectedPlatform={(platform)=> setGameQuery({...game_query, platform_id: platform.id})}/>
                       </Box>
                       <SortSelector setOrder={(order)=> setGameQuery({...game_query, order})}/>
                   </Flex>
