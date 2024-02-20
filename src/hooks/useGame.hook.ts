@@ -14,21 +14,20 @@ export interface Game{
 const useGames = (game_query: GameQuery) => {
     return useInfiniteQuery<Game[], Error>({
         queryKey: ["games", game_query],
-        queryFn: ({pageParam = 2}) => gameService.getAll(
+        queryFn: ({pageParam = 1}) => gameService.getAll(
             { 
                 params: { 
                     genres: game_query.genre?.id, 
                     parent_platforms: game_query.platform?.id, 
                     ordering: game_query.order,
                     search: game_query.search,
-                    page: (pageParam - 1) * game_query.page_size,
-                    page_size: game_query.page_size,
+                    page: pageParam,
                 }
             }),
-        keepPreviousData: true,
         getNextPageParam: (last_page, all_pages) => {
             return last_page.length > 0 ? all_pages.length + 1 : undefined;
-        }
+        },
+        staleTime: 24 * 60 * 60 * 100,
     });
 };
       

@@ -1,24 +1,30 @@
-import { Box, Button, SimpleGrid, Text } from "@chakra-ui/react";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGame.hook";
 import GameCard from "./gameCard.component";
 import GameCardSkeleton from "./gameCardSkeleton.component";
 import GameCardContainer from "./gameCardContainer.component";
 import { GameQuery } from "../App";
 import React from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
     game_query: GameQuery;
 }
 
 const GameGrid = ({game_query}: Props) => {
-    const {data, error, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useGames({...game_query, page_size: 8});
+    const {data, error, isLoading, fetchNextPage, hasNextPage } = useGames({...game_query, page_size: 8});
     const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     
     if(error) return <Text>{error.message}</Text>;
 
     return (
-        <Box padding="10px">
-            <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} spacing={6}>
+        <InfiniteScroll
+            dataLength={data?.pages[0]?.length || 0 }
+            hasMore={!!hasNextPage}
+            next={() => fetchNextPage()}
+            loader={<Spinner/>}
+        >
+            <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} spacing={6} padding="10px">
                 {(isLoading && !data) 
                     ? skeletons.map(skeleton => (
                         <GameCardContainer key={skeleton}>
@@ -33,14 +39,13 @@ const GameGrid = ({game_query}: Props) => {
                                 </GameCardContainer>
                             ))}
                         </React.Fragment>  
-                      ))
+                    ))
                 }
             </SimpleGrid>
-            {hasNextPage && 
+            {/* {hasNextPage && 
                 <Button my={3} disabled={isFetchingNextPage} onClick={()=>fetchNextPage()}>{(isFetchingNextPage) ? "Loading..." : "Load More"}</Button>
-            }
-        </Box>
-
+            } */}
+        </InfiniteScroll>
     )
 }
 
