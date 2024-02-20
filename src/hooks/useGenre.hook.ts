@@ -10,8 +10,6 @@ const useGenres = () => {
       staleTime: ms("24h"),
       initialData: genres
     });
-  };
-  
-
+};
 
 export default useGenres;
