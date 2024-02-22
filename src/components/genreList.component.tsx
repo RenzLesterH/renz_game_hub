@@ -1,17 +1,15 @@
 import { HStack, Image, List, ListItem, Skeleton, Button, Heading } from '@chakra-ui/react';
 import useGenres from '../hooks/useGenre.hook'
 import getCroppedImageUrl from '../services/imageUrl';
-import { Genre } from '../services/genre.service';
+import useGameQueryStore from '../store/gameQuery.store';
 
-interface Props{
-    setSelectedGenre: (genre: Genre) => void;
-    selected_genre_id?: number;
-}
-
-const GenreList = ({setSelectedGenre, selected_genre_id}: Props) => {
+const GenreList = () => {
     const {data, isLoading, error} = useGenres();
     const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const setGenreId = useGameQueryStore(state => state.setGenreId);
+    const genre_id = useGameQueryStore(state => state.game_query.genre_id);
     
+
     if (error) return null;
 
     return (
@@ -28,7 +26,7 @@ const GenreList = ({setSelectedGenre, selected_genre_id}: Props) => {
                         </ListItem>
                     ))
                     : data?.map((genre) => {
-                        const font_weight = (genre.id === selected_genre_id) ? "bold" : "normal";
+                        const font_weight = (genre.id === genre_id) ? "bold" : "normal";
 
                         return ( <ListItem key={genre.id} paddingY="5px">
                             <HStack>
@@ -38,7 +36,7 @@ const GenreList = ({setSelectedGenre, selected_genre_id}: Props) => {
                                     objectFit="cover"
                                     src={getCroppedImageUrl(genre.image_background)}
                                 />
-                                <Button fontWeight={font_weight} whiteSpace="normal" textAlign="left" onClick={()=>setSelectedGenre(genre)} variant="link" fontSize="lg">{genre.name}</Button>
+                                <Button fontWeight={font_weight} whiteSpace="normal" textAlign="left" onClick={()=> setGenreId(genre.id) } variant="link" fontSize="lg">{genre.name}</Button>
                             </HStack>
                         </ListItem> );
                     })

@@ -1,15 +1,13 @@
-import { Heading } from "@chakra-ui/react"
-import { GameQuery } from "../App";
+import { Heading } from "@chakra-ui/react";
 import useFindPlatform from "../hooks/useFindPlatform.hook";
 import useFindGenre from "../hooks/useFindGenre.hook";
+import useGameQueryStore from "../store/gameQuery.store";
 
-interface Props{
-    game_query: GameQuery;
-}
-
-const GameHeading = ({game_query}: Props) => {
-    const selected_platform = useFindPlatform(game_query.platform_id);
-    const selected_genre = useFindGenre(game_query.genre_id);
+const GameHeading = () => {
+    const genre_id = useGameQueryStore(state => state.game_query.genre_id );
+    const selected_genre = useFindGenre(genre_id);
+    const platform_id = useGameQueryStore(state => state.game_query.platform_id );
+    const selected_platform = useFindPlatform(platform_id);
 
     const heading = `${selected_platform?.name || ""} ${selected_genre?.name || ""} Games`;
 
