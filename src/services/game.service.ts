@@ -1,4 +1,4 @@
-import { Game } from "../hooks/useGame.hook";
+import { Game } from '../entities/Game';
 import APIClient from "./apiClient.service";
 
 export default new APIClient<Game>("/games");

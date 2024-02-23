@@ -1,6 +1,7 @@
 
 import { useQuery } from '@tanstack/react-query';
-import platformService, {Platform} from '../services/platform.service';
+import platformService from '../services/platform.service';
+import { Platform } from "../entities/Platform";
 import platforms from '../assets/platforms';
 import ms from 'ms';
 
