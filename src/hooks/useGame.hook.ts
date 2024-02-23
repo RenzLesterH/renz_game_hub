@@ -10,6 +10,8 @@ export interface Game{
     background_image: string;
     parent_platforms: {platform: Platform}[];
     metacritic: number;
+    slug: string,
+    description_raw: string,
 }
 
 const useGames = () => {
@@ -26,7 +28,8 @@ const useGames = () => {
                     search: game_query.search,
                     page: pageParam,
                 }
-            }),
+            }
+        ),
         getNextPageParam: (last_page, all_pages) => {
             return last_page.length > 0 ? all_pages.length + 1 : undefined;
         },
